@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DemoApp</string>
+    <string name="tour_images">Tour Images</string>
+    <string name="no_title">No Title</string>
+    <string name="no_description">No Description</string>
+    <string name="download_failed">Download Failed!</string>
+    <string name="refresh">Refresh</string>
+</resources>
