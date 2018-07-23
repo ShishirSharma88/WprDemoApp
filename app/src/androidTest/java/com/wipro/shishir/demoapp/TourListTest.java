@@ -64,10 +64,12 @@ public class TourListTest {
     // and check for the toast message to get appear on the screen
     @Test
     public void testRecyclerViewItemsDataSetupFail() throws InterruptedException {
-        Utility.BASE_URL = "";
+        Thread.sleep(8000);
+
+        Utility.BASE_URL = "aaaaaa";
 
         onView(withId(R.id.swipe_layout_refresh)).perform(swipeDown());
-        onView(withText(R.string.no_internet)).
+        onView(withText(R.string.download_failed)).
                 inRoot(withDecorView(not(is(mainActivityActivityTestRule.getActivity().getWindow().getDecorView())))).
                 check(matches(isDisplayed()));
     }

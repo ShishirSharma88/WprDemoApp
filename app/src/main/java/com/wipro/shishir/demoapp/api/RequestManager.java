@@ -1,6 +1,7 @@
 package com.wipro.shishir.demoapp.api;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.wipro.shishir.demoapp.listener.TaskListener;
 import com.wipro.shishir.demoapp.model.MainData;
@@ -29,8 +30,14 @@ public class RequestManager implements TaskListener {
             onFailure(Utility.NETWORK_ERROR_CODE);
             return;
         }
-        RequestExecutor requestExecutor = new RequestExecutor(taskListener, getRetroClient());
-        requestExecutor.execute();
+
+        try {
+            RequestExecutor requestExecutor = new RequestExecutor(taskListener, getRetroClient());
+            requestExecutor.execute();
+        } catch (Exception e) {
+            Log.i(getClass().getName(), e.toString());
+            onFailure(Utility.OTHER_ERROR_CODE);
+        }
     }
 
     private Retrofit getRetroClient() {
