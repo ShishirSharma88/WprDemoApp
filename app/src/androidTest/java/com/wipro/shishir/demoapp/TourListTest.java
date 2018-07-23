@@ -64,6 +64,9 @@ public class TourListTest {
     // and check for the toast message to get appear on the screen
     @Test
     public void testRecyclerViewItemsDataSetupFail() throws InterruptedException {
+
+        // It is added here to maintain a gap or delay
+        // in second api call by refresh button after activity get started
         Thread.sleep(8000);
 
         Utility.BASE_URL = "aaaaaa";
