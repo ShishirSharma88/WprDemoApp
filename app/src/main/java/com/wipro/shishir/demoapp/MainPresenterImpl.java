@@ -1,19 +1,18 @@
 package com.wipro.shishir.demoapp;
 
 import android.support.annotation.NonNull;
-import android.view.MenuItem;
 
 import com.wipro.shishir.demoapp.api.RequestManager;
 import com.wipro.shishir.demoapp.model.MainData;
 import com.wipro.shishir.demoapp.utility.Utility;
 
-public class MainPresenterImpl implements MainPresenter {
+public class MainPresenterImpl implements TourListContract.MainPresenter {
 
-    private MainView mainView;
+    private TourListContract.MainView mainView;
     private RequestManager requestManager;
 
 
-    MainPresenterImpl(MainView mainView) {
+    MainPresenterImpl(TourListContract.MainView mainView) {
         this.mainView = mainView;
         RequestManager.ResponseListener<MainData> responseListener = this;
         requestManager = new RequestManager(responseListener);
@@ -21,23 +20,30 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public void startProcess() {
-        mainView.showProgress();
-        requestManager.callApi(Utility.DATA_URL);
+        requestManager.callApi();
     }
 
     @Override
-    public void onOptionsItemClicked(MenuItem menuItem) {
+    public void initiate() {
+        mainView.showProgress();
         startProcess();
     }
 
     @Override
-    public void onResponse(@NonNull MainData mainData, boolean success) {
+    public void onRefresh() {
+        startProcess();
+    }
+
+    @Override
+    public void onResponse(@NonNull MainData mainData, boolean success, int errorType) {
         mainView.setAdapter(mainData);
         mainView.setTitle(mainData.getTitle());
         mainView.hideProgress();
 
         if (!success) {
-            mainView.showMessage(R.string.download_failed);
+            mainView.showMessage(errorType == Utility.OTHER_ERROR_CODE
+                    ? R.string.download_failed
+                    : R.string.no_internet);
         }
     }
 }

@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -63,11 +64,10 @@ public class TourListTest {
     // and check for the toast message to get appear on the screen
     @Test
     public void testRecyclerViewItemsDataSetupFail() throws InterruptedException {
-        Thread.sleep(8000);
-        Utility.DATA_URL = "";
+        Utility.BASE_URL = "";
 
-        onView(withId(R.id.action_refresh)).perform(click());
-        onView(withText(R.string.download_failed)).
+        onView(withId(R.id.swipe_layout_refresh)).perform(swipeDown());
+        onView(withText(R.string.no_internet)).
                 inRoot(withDecorView(not(is(mainActivityActivityTestRule.getActivity().getWindow().getDecorView())))).
                 check(matches(isDisplayed()));
     }

@@ -18,7 +18,9 @@ import com.wipro.shishir.demoapp.model.MainData;
 
 import java.util.List;
 
-@SuppressWarnings("ALL")
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourViewHolder> {
 
     private MainData tourPlacesList;
@@ -33,6 +35,7 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourVi
     public TourViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                              int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_tour, parent, false);
+        ButterKnife.bind(this, view);
 
         // This is here because we do not want to use context from views or activity instead we can
         // get it from the view
@@ -58,7 +61,7 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourVi
         holder.text_description.setText(!TextUtils.isEmpty(description) ? description
                 : context.getString(R.string.no_description));
         holder.tourImage.setImageDrawable(context
-                .getResources().getDrawable(R.drawable.ic_launcher_background));
+                .getResources().getDrawable(R.drawable.ic_launcher_background, context.getTheme()));
 
         // This is the default visibilty to avoid flickering of images or may be miss positioning
         // of them while loading or scrolling.
@@ -86,7 +89,7 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourVi
     // Picasso load images only when the view is visible, So it can be like
     // lazy loading or loading when required
     private void loadImage(String finalImageUrl, final ImageView imageView) {
-        picasso.load((String) finalImageUrl)
+        picasso.load(finalImageUrl)
                 .into(imageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -101,18 +104,21 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourVi
     }
 
     public static class TourViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.layout_tour_item)
         CardView tourLayout;
+
+        @BindView(R.id.text_title)
         TextView titleTextView;
+
+        @BindView(R.id.text_description)
         TextView text_description;
+
+        @BindView(R.id.image_tour)
         ImageView tourImage;
 
         TourViewHolder(View v) {
             super(v);
-
-            tourLayout = (CardView) v.findViewById(R.id.layout_tour_item);
-            titleTextView = (TextView) v.findViewById(R.id.text_title);
-            text_description = (TextView) v.findViewById(R.id.text_description);
-            tourImage = (ImageView) v.findViewById(R.id.image_tour);
+            ButterKnife.bind(this, v);
         }
     }
 }

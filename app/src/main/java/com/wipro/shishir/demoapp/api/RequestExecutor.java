@@ -1,80 +1,60 @@
 package com.wipro.shishir.demoapp.api;
 
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.wipro.shishir.demoapp.listener.TaskListener;
+import com.wipro.shishir.demoapp.model.MainData;
+import com.wipro.shishir.demoapp.utility.Utility;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import retrofit2.Retrofit;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * This class is responsible for server communication
  */
-class RequestExecutor extends AsyncTask<Void, Void, String> {
+class RequestExecutor {
 
-    private TaskListener<String> taskListener;
-    private String requestUrl;
-    private JSONObject params;
+    private String TAG = getClass().getName();
+    private TaskListener<MainData> taskListener;
+    private Retrofit retrofit;
 
-    RequestExecutor(@NonNull String requestUrl,
-                    @NonNull TaskListener<String> taskListener,
-                    @NonNull JSONObject params) {
-        this.requestUrl = requestUrl;
+    RequestExecutor(@NonNull TaskListener<MainData> taskListener,
+                    @NonNull Retrofit retrofit) {
         this.taskListener = taskListener;
-        this.params = params;
+        this.retrofit = retrofit;
     }
 
-    protected String doInBackground(Void... urls) {
+    protected void execute() {
+        RetroInterface retroInterface = retrofit.create(RetroInterface.class);
 
-        try {
-            URL url = new URL(requestUrl);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            urlConnection.setDoOutput(true);
-            urlConnection.setDoInput(true);
+        Observable<MainData> observable = retroInterface.getTourData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
 
-            // For making request POST and GET
-            urlConnection.setRequestMethod("GET");
-
-            try {
-                OutputStream os = urlConnection.getOutputStream();
-                os.write(params.toString().getBytes("UTF-8"));
-                os.close();
-
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line).append("\n");
-                }
-
-                bufferedReader.close();
-                return stringBuilder.toString();
-            } finally {
-                urlConnection.disconnect();
+        observable.subscribe(new Observer<MainData>() {
+            @Override
+            public void onCompleted() {
+                Log.i(TAG, "onCompleted");
             }
-        } catch (Exception e) {
-            Log.e("doInBackground : ", e.getMessage(), e);
-            return null;
-        }
-    }
 
-    protected void onPostExecute(String response) {
+            @Override
+            public void onError(Throwable e) {
+                Log.i(TAG, "onError : " + e.toString());
+            }
 
-        if (response == null) {
-            taskListener.onFailure(0);
-        } else {
-            Log.i("INFO", response);
-            taskListener.onSuccess(response);
-        }
+            @Override
+            public void onNext(MainData mainData) {
+                if (mainData == null) {
+                    taskListener.onFailure(Utility.OTHER_ERROR_CODE);
+                } else {
+                    Log.i("INFO", mainData.toString());
+                    taskListener.onSuccess(mainData);
+                }
+            }
+        });
     }
 }

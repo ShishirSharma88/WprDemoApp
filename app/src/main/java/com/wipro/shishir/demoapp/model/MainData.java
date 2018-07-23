@@ -3,9 +3,12 @@ package com.wipro.shishir.demoapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MainData {
+public class MainData implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @SerializedName("title")
     @Expose

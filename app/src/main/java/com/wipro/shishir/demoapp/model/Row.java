@@ -3,7 +3,11 @@ package com.wipro.shishir.demoapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Row {
+import java.io.Serializable;
+
+public class Row implements Serializable {
+
+    private static final long serialVersionUID = 2L;
 
     @SerializedName("title")
     @Expose
