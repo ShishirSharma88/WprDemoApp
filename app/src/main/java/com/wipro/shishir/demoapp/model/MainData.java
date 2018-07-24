@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MainData implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8723897613299884076L;
 
     @SerializedName("title")
     @Expose

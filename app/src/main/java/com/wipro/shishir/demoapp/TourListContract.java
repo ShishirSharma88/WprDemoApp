@@ -5,7 +5,7 @@ import android.view.MenuItem;
 import com.wipro.shishir.demoapp.api.RequestManager;
 import com.wipro.shishir.demoapp.model.MainData;
 
-public class TourListContract {
+public interface TourListContract {
     public interface MainView {
         void showProgress();
         void hideProgress();
