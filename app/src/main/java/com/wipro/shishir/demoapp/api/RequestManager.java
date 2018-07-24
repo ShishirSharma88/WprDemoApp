@@ -15,10 +15,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * This class has responsibility to make request and return response
  * after parsing to presenter
  */
-public class RequestManager implements TaskListener {
+public class RequestManager implements TaskListener<MainData> {
 
-    private TaskListener<MainData> taskListener;
-    private ResponseListener<MainData> responseListener;
+    private final TaskListener<MainData> taskListener;
+    private final ResponseListener<MainData> responseListener;
 
     public RequestManager(ResponseListener<MainData> responseListener) {
         taskListener = this;
@@ -49,8 +49,8 @@ public class RequestManager implements TaskListener {
     }
 
     @Override
-    public void onSuccess(@NonNull Object result) {
-        responseListener.onResponse((MainData) result, true, Utility.NO_ERROR_CODE);
+    public void onSuccess(@NonNull MainData result) {
+        responseListener.onResponse(result, true, Utility.NO_ERROR_CODE);
     }
 
     @Override
@@ -61,9 +61,9 @@ public class RequestManager implements TaskListener {
 
     // Data type is fixed here as of now, we do not have any other server request
     // in the application
-    // here reason is used for error occured due to network or any other
+    // here reason is used for error occurred due to network or any other
     // since api doesn't support any error message on failure we are using error code '0'
-    // and failure due to newtwork is '1'
+    // and failure due to network is '1'
     public interface ResponseListener<MainData> {
         void onResponse(@NonNull MainData mainData, boolean success, int reason);
     }

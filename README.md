@@ -8,7 +8,7 @@ This Demo application gives list of data with their title, images and content.
 
 This app is developed with Android Studio 3.1.1 and latest Gradle version 3.1.1 Hence use -Android Studio 3.0 or Above version 
 to edit or for testing at your own machine.
-Compile SDK version 27 and Min SDk 18.
+Compile SDK version 27 and Min SDK 18.
 
 ## Features
 
@@ -22,7 +22,7 @@ ButterKnife is used with views
 
 ## Folder Structure
 
-This application struction can be divided into 2 parts Business and UI.
+This application's structure can be divided into 2 parts Business and UI.
 Business layer contains - Data = contains core API and Usecase classes for retrofit 2 calls - model = contain the POJO classes DataObject 
 and DomainModel as JSON responses
 UI layer contains - Activity, MVP(presenter, contract interface and Recylcer view adapter)

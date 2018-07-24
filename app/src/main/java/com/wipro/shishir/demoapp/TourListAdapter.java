@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourViewHolder> {
 
-    private MainData tourPlacesList;
+    private final MainData tourPlacesList;
     private Picasso picasso;
 
     TourListAdapter(MainData mainData) {
@@ -63,7 +63,7 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourVi
         holder.tourImage.setImageDrawable(context
                 .getResources().getDrawable(R.drawable.ic_launcher_background, context.getTheme()));
 
-        // This is the default visibilty to avoid flickering of images or may be miss positioning
+        // This is the default visibility to avoid flickering of images or may be miss positioning
         // of them while loading or scrolling.
         holder.tourImage.setVisibility(View.GONE);
 

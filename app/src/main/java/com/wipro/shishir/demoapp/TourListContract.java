@@ -3,7 +3,7 @@ package com.wipro.shishir.demoapp;
 import com.wipro.shishir.demoapp.api.RequestManager;
 import com.wipro.shishir.demoapp.model.MainData;
 
-public interface TourListContract {
+interface TourListContract {
      interface MainView {
         void showProgress();
         void hideProgress();

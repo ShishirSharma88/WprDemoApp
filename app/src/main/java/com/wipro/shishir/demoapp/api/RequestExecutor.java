@@ -18,9 +18,9 @@ import rx.schedulers.Schedulers;
  */
 class RequestExecutor {
 
-    private String TAG = getClass().getName();
-    private TaskListener<MainData> taskListener;
-    private Retrofit retrofit;
+    private final String TAG = getClass().getName();
+    private final TaskListener<MainData> taskListener;
+    private final Retrofit retrofit;
 
     RequestExecutor(@NonNull TaskListener<MainData> taskListener,
                     @NonNull Retrofit retrofit) {
@@ -28,7 +28,7 @@ class RequestExecutor {
         this.retrofit = retrofit;
     }
 
-    protected void execute() {
+    void execute() {
         RetroInterface retroInterface = retrofit.create(RetroInterface.class);
 
         Observable<MainData> observable = retroInterface.getTourData()

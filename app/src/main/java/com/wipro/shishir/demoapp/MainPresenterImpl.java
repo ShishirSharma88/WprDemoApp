@@ -8,8 +8,8 @@ import com.wipro.shishir.demoapp.utility.Utility;
 
 public class MainPresenterImpl implements TourListContract.MainPresenter {
 
-    private TourListContract.MainView mainView;
-    private RequestManager requestManager;
+    private final TourListContract.MainView mainView;
+    private final RequestManager requestManager;
 
 
     MainPresenterImpl(TourListContract.MainView mainView) {
